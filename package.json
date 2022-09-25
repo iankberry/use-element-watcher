@@ -1,0 +1,53 @@
+{
+  "name": "use-element-watcher",
+  "version": "1.0.0",
+  "repository": "iankberry/use-element-watcher",
+  "description": "React hook to asynchronously watch for DOM elements on the page using a selector",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "author": {
+    "name": "Ian Berry",
+    "email": "iberry@raxnet.net",
+    "url": "https://iankberry.com"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "build": "tsc",
+    "publish": "tsc && np",
+    "test": "echo \"ok\""
+  },
+  "files": [
+    "*.d.ts",
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "hook",
+    "hooks",
+    "useElementWatcher",
+    "element watcher"
+  ],
+  "peerDependencies": {
+    "react": ">=17.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.38",
+    "@types/react": "^18.0.15",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "confusing-browser-globals": "^1.0.11",
+    "cross-env": "^7.0.2",
+    "eslint": "8.22.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^3.7.5"
+  }
+}
