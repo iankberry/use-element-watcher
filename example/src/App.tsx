@@ -1,5 +1,5 @@
 import React from "react";
-import { useElementWatcher } from "../src";
+import { useElementWatcher } from "../../src";
 
 export const App = () => {
     const [step, setStep] = React.useState(1);
@@ -7,27 +7,24 @@ export const App = () => {
 
     watchElement(".first-step", {
         onWatch: (element) => {
-            // @ts-ignore
             element.style.backgroundColor = "red";
         }
     });
 
     watchElement(".second-step", {
         onWatch: (element) => {
-            // @ts-ignore
-            element.style.backgroundColor = "blue";
+            element.style.backgroundColor = "teal";
         }
     });
 
     watchElement(".third-step", {
         onWatch: (element) => {
-            // @ts-ignore
             element.style.backgroundColor = "green";
         }
     });
 
     return (
-        <div>
+        <div className="container">
             {step === 1 && <div className="first-step">First step!</div>}
             {step === 2 && <div className="second-step">Second step!</div>}
             {step === 3 && <div className="third-step">Third step!</div>}

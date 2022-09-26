@@ -7,13 +7,13 @@ type OriginalStyles = {
 }
 
 type WatcherCallbacks = {
-    onWatch?: (element: Element) => void
-    onUnwatch?: (element: Element, originalStyles?: OriginalStyles) => void
+    onWatch?: (element: HTMLElement) => void
+    onUnwatch?: (element: HTMLElement, originalStyles?: OriginalStyles) => void
 }
 
 type WatcherSet = {
     callbacks: WatcherCallbacks
-    element: Element
+    element: HTMLElement
     // used to reset styles back to their original styles on unwatch
     originalStyles?: OriginalStyles
 }
@@ -29,7 +29,7 @@ export function useElementWatcher() {
      * @param target
      * @param callbacks
      */
-    const watchElement = (target: Element | string, callbacks: WatcherCallbacks) => {
+    const watchElement = (target: HTMLElement | string, callbacks: WatcherCallbacks) => {
         (async () => {
             // if an object is provided, just store it and fire the onWatch callback
             if (typeof target !== 'string') {
@@ -46,7 +46,7 @@ export function useElementWatcher() {
                 // find element in the dom by selector string
                 const result = await querySelectorAsync(target);
 
-                result.forEach((element: Element|HTMLElement) => {
+                result.forEach((element: HTMLElement) => {
                     const uniqueTarget = target + '-' + getObjectHash(element.id === '' ? ('innerText' in element ? element.innerText : '') : element.id);
 
                     // if there is already a stored element for this selected, unwatch the old one first

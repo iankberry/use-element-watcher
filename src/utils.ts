@@ -1,9 +1,13 @@
 // resolves when an element matching the specified selector is found
-export function querySelectorAsync(selector: string): Promise<Element[]> {
+export function querySelectorAsync(selector: string): Promise<HTMLElement[]> {
     const result = document.querySelectorAll(selector);
 
     if (result && result.length > 0) {
-        return Promise.resolve(Array.from(result));
+        return Promise.resolve(
+            (Array.from(result) as HTMLElement[])
+                // filter out non-html elements
+                .filter(element => 'innerText' in element)
+        );
     } else {
         return rafAsync()
             .then(() => querySelectorAsync(selector));

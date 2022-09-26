@@ -1,0 +1,14 @@
+html, body {
+    min-height: 100%;
+    margin: 0;
+    color: #333;
+    font-family: sans-serif;
+}
+
+.container {
+    margin: 40px auto;
+    width: 300px;
+}
+.container > div {
+    padding: 10px;
+}
