@@ -25,7 +25,7 @@ This hook does not accept any input parameters.
 This hook returns the following properties.
 
 ```
-watchElement: (target: Element | string, callbacks: WatcherCallbacks) => void
+watchElement: (target: HTMLElement | string, callbacks: WatcherCallbacks) => void
 unWatchAll: () => void
 ```
 
@@ -63,21 +63,18 @@ export default function App() {
 
     watchElement(".first-step", {
         onWatch: (element) => {
-            // @ts-ignore
             element.style.backgroundColor = "red";
         }
     });
 
     watchElement(".second-step", {
         onWatch: (element) => {
-            // @ts-ignore
-            element.style.backgroundColor = "blue";
+            element.style.backgroundColor = "teal";
         }
     });
 
     watchElement(".third-step", {
         onWatch: (element) => {
-            // @ts-ignore
             element.style.backgroundColor = "green";
         }
     });
