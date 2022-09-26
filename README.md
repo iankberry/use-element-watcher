@@ -33,7 +33,7 @@ unWatchAll: () => void
 A function that accepts an element (via an object or selector string) and callbacks that will be emitted when the element is watched/unwatched on the page. It is recommended that you call this function on each render to maintain the element reference if it is re-created in the DOM.
 
 #### unWatchAll `function`
-A function that unwatches all elements registered with `watchElement`. The `onUnwatch` callback function will be emitted for each watched element when this is called.
+A function that unwatches all elements registered with `watchElement`. The `onUnwatch` callback function will be emitted for each watched element when this is called. This function is also called when the component unmounts.
 
 ### Callback types
 
