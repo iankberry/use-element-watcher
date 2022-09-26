@@ -1,6 +1,6 @@
 {
   "name": "use-element-watcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "iankberry/use-element-watcher",
   "description": "React hook to asynchronously watch for DOM elements on the page using a selector",
   "main": "dist/index.js",
