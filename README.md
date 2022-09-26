@@ -97,8 +97,9 @@ export default function App() {
         </div>
     );
 }
-
 ```
+
+[![Edit use-element-watcher-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/use-element-watcher-example-il4mxd?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Known limitations
 
