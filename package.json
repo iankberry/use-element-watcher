@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "publish": "tsc && np",
+    "release": "tsc && np",
     "test": "echo \"ok\""
   },
   "files": [

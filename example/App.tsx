@@ -1,7 +1,7 @@
 import React from "react";
-import { useElementWatcher } from "../src/useElementWatcher";
+import { useElementWatcher } from "../src";
 
-export default function App() {
+export const App = () => {
     const [step, setStep] = React.useState(1);
     const { watchElement } = useElementWatcher();
 
