@@ -40,14 +40,11 @@ A function that unwatches all elements registered with `watchElement`. The `onUn
 ```typescript
 type WatcherCallbacks = {
     onWatch?: (element: HTMLElement) => void
-    onUnwatch?: (element: HTMLElement, originalStyles?: OriginalStyles) => void
-}
-
-type OriginalStyles = {
-    zIndex: string
-    pointerEvents: string
+    onUnwatch?: (element: HTMLElement, originalStyles: CSSStyleDeclaration) => void
 }
 ```
+
+The `CSSStyleDeclaration` type is builtin to Typescript and contains a shorthand object of all CSS properties.
 
 ## Example
 
@@ -101,7 +98,6 @@ export default function App() {
 ## Known limitations
 
 - The library attempts to calculate a unique "id" for each watched element when using a selector so it knows when to cleanup as the DOM changes. Since there is no builtin concept of a unique element id in JS, it may not be 100% reliable. I would recommend adding HTML `id` attributes to watched elements to avoid this issue.
-- Only the `z-index` and `pointer-events` CSS properties are tracked for libraries that modify the styles of watched elements. This could easily be extended to additional properties or even all CSS properties (if possible without a large performance penalty).
 
 ## Note
 

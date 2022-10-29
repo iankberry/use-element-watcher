@@ -1,21 +1,16 @@
 import { useEffect, useRef } from "react";
-import { querySelectorAsync, getObjectHash } from "./utils";
-
-type OriginalStyles = {
-    zIndex: string
-    pointerEvents: string
-}
+import { getObjectHash, querySelectorAsync } from "./utils";
 
 type WatcherCallbacks = {
     onWatch?: (element: HTMLElement) => void
-    onUnwatch?: (element: HTMLElement, originalStyles?: OriginalStyles) => void
+    onUnwatch?: (element: HTMLElement, originalStyles: CSSStyleDeclaration) => void
 }
 
 type WatcherSet = {
     callbacks: WatcherCallbacks
     element: HTMLElement
     // used to reset styles back to their original styles on unwatch
-    originalStyles?: OriginalStyles
+    originalStyles: CSSStyleDeclaration
 }
 
 export function useElementWatcher() {
@@ -26,8 +21,8 @@ export function useElementWatcher() {
 
     /**
      * Watches an element by object or selector
-     * @param target
-     * @param callbacks
+     * @param target Target element selector or ref
+     * @param callbacks Callbacks for watch/unwatch
      */
     const watchElement = (target: HTMLElement | string, callbacks: WatcherCallbacks) => {
         (async () => {
@@ -37,6 +32,7 @@ export function useElementWatcher() {
                 elementSet.current.add({
                     element: target,
                     callbacks,
+                    originalStyles: getPreservedStyles(target),
                 });
 
                 if (callbacks.onWatch) {
@@ -53,7 +49,7 @@ export function useElementWatcher() {
                     if (uniqueTarget in selectorMap.current && selectorMap.current[uniqueTarget].element !== element) {
                         if (selectorMap.current[uniqueTarget].callbacks.onUnwatch) {
                             // @ts-ignore
-                            selectorMap.current[uniqueTarget].callbacks.onUnwatch(selectorMap.current[uniqueTarget].element);
+                            selectorMap.current[uniqueTarget].callbacks.onUnwatch(selectorMap.current[uniqueTarget].element, selectorMap.current[uniqueTarget].originalStyles);
                         }
                     }
 
@@ -64,10 +60,7 @@ export function useElementWatcher() {
                         // stash styles before any modifications have been made
                         originalStyles: uniqueTarget in selectorMap.current
                             ? selectorMap.current[uniqueTarget].originalStyles
-                            : {
-                                zIndex: window.getComputedStyle(element).zIndex,
-                                pointerEvents: window.getComputedStyle(element).pointerEvents,
-                            }
+                            : getPreservedStyles(element),
                     }
 
                     if (callbacks.onWatch) {
@@ -78,7 +71,9 @@ export function useElementWatcher() {
         })();
     }
 
-    // unwatch and call the onUnwatch callback for all watched elements
+    /**
+     * Unwatch and call the onUnwatch callback for all watched elements
+     */
     const unWatchAll = () => {
         const set = elementSet.current;
         const map = selectorMap.current;
@@ -86,7 +81,7 @@ export function useElementWatcher() {
         // unwatch object based elements
         set.forEach(item => {
             if (item.callbacks.onUnwatch) {
-                item.callbacks.onUnwatch(item.element);
+                item.callbacks.onUnwatch(item.element, item.originalStyles);
             }
         });
 
@@ -97,6 +92,29 @@ export function useElementWatcher() {
             }
         });
     }
+
+    /**
+     * Returns a new CSSStyleDeclaration object representing an element's styles
+     * @param element
+     */
+    const getPreservedStyles = (element: HTMLElement): CSSStyleDeclaration => {
+        const preservedStyles: {[key: string]: string|number} = {};
+        const styles = window.getComputedStyle(element);
+
+        Array.from(styles).forEach((property) => {
+            preservedStyles[camelize(property)] = styles.getPropertyValue(property);
+            preservedStyles[property] = styles.getPropertyValue(property);
+        });
+
+        return preservedStyles as unknown as CSSStyleDeclaration;
+    }
+
+    /**
+     * Converts dashes to camelCase
+     * @param text
+     */
+    const camelize = (text: string) =>
+        text.replace(/-./g, (m) => m[1].toUpperCase())
 
     // call unWatch callbacks to clean-up on unmount
     useEffect(() => () => {
